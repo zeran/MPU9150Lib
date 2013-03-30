@@ -6,7 +6,7 @@ Added magMix parameter to MPU6150Lib::init(). This controls how much influence t
   
   0 = Just use MPU-9150 gyros and ignore the magnetometer
   1 = Just use magnetometer and ignore gyro yaw information
-  2-n = Fuse gyro and yaw information. The higher the value, the less influence the magnetometer has.
+  2-n = Fuse gyro and magnetometer information. The higher the value, the less influence the magnetometer has.
 
 The value that's best will depend on the application and the environment. See MPU9150Lib.h for more.
 
