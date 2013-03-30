@@ -2,6 +2,8 @@ MPU9150Lib is an implementation of 9-axis data fusion on an Arduino using the In
 
 March 30, 2013
 --------------
+Added Accel9150 to demonstrate how to calculate residual accelerations in the body frame.
+
 Added magMix parameter to MPU6150Lib::init(). This controls how much influence the magnetometer has on the yaw information:
   
   0 = Just use MPU-9150 gyros and ignore the magnetometer
