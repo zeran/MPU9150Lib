@@ -39,7 +39,7 @@ MPU9150Lib MPU;                                              // the MPU object
 
 //  MPU_MAG_MIX defines the influence that the magnetometer has on the yaw output.
 //  The magnetometer itself is quite noisy so some mixing with the gyro yaw can help
-//  significantly. Some example values are define below:
+//  significantly. Some example values are defined below:
 
 #define  MPU_MAG_MIX_GYRO_ONLY          0                   // just use gyro yaw
 #define  MPU_MAG_MIX_MAG_ONLY           1                   // just use magnetometer and no gyro yaw
@@ -52,15 +52,15 @@ MPU9150Lib MPU;                                              // the MPU object
 
 void setup()
 {
-    Serial.begin(SERIAL_PORT_SPEED);
-    Serial.println("Arduino9150 starting");
-    Wire.begin();
-    MPU.init(MPU_UPDATE_RATE, MPU_MAG_MIX_GYRO_AND_MAG);   // start the MPU
+  Serial.begin(SERIAL_PORT_SPEED);
+  Serial.println("Arduino9150 starting");
+  Wire.begin();
+  MPU.init(MPU_UPDATE_RATE, MPU_MAG_MIX_GYRO_AND_MAG);   // start the MPU
 }
 
 void loop()
 {  
-  if (MPU.read()) {                                        // get the latest data
+  if (MPU.read()) {                                        // get the latest data if ready yet
 //  MPU.printQuaternion(MPU.m_rawQuaternion);              // print the raw quaternion from the dmp
 //  MPU.printVector(MPU.m_rawMag);                         // print the raw mag data
 //  MPU.printVector(MPU.m_rawAccel);                       // print the raw accel data

@@ -42,39 +42,40 @@ MPU9150Lib MPU;                                              // the MPU object
 
 //  MPU_MAG_MIX defines the influence that the magnetometer has on the yaw output.
 //  The magnetometer itself is quite noisy so some mixing with the gyro yaw can help
-//  significantly. Some example values are define below:
+//  significantly. Some example values are defined below:
 
-#define  MPU_MAG_MIX_GYRO_ONLY          0                   // just use gyro yaw
-#define  MPU_MAG_MIX_MAG_ONLY           1                   // just use magnetometer and no gyro yaw
-#define  MPU_MAG_MIX_GYRO_AND_MAG       10                  // a good mix value 
-#define  MPU_MAG_MIX_GYRO_AND_SOME_MAG  50                  // mainly gyros with a bit of mag correction 
+#define  MPU_MAG_MIX_GYRO_ONLY          0                  // just use gyro yaw
+#define  MPU_MAG_MIX_MAG_ONLY           1                  // just use magnetometer and no gyro yaw
+#define  MPU_MAG_MIX_GYRO_AND_MAG       10                 // a good mix value 
+#define  MPU_MAG_MIX_GYRO_AND_SOME_MAG  50                 // mainly gyros with a bit of mag correction 
 
 //  SERIAL_PORT_SPEED defines the speed to use for the debug serial port
 
 #define  SERIAL_PORT_SPEED  115200
 
+MPUQuaternion gravity;                                     // this is our earth frame gravity vector                 
+
 void setup()
 {
-    Serial.begin(SERIAL_PORT_SPEED);
-    Serial.println("Accel9150 starting");
-    Wire.begin();
-    MPU.init(MPU_UPDATE_RATE, MPU_MAG_MIX_GYRO_AND_MAG);   // start the MPU
-}
+  Serial.begin(SERIAL_PORT_SPEED);
+  Serial.println("Accel9150 starting");
+  Wire.begin();
+  MPU.init(MPU_UPDATE_RATE, MPU_MAG_MIX_GYRO_AND_MAG);     // start the MPU
 
-void loop()
-{  
-  MPUQuaternion gravity;                                   // this is our earth frame gravity vector                 
-  MPUQuaternion rotatedGravity;                            // this is our body frame gravity vector
-  MPUQuaternion fusedConjugate;                            // this is the conjugate of the fused quaternion
-  MPUQuaternion qTemp;                                     // used in the rotation
-  MPUVector3 result;                                       // the accelerations
-  
-  //  set up the initial gravity vector - max value down the z axis
+  //  set up the initial gravity vector for quaternion rotation - max value down the z axis
   
   gravity[QUAT_W] = 0;
   gravity[QUAT_X] = 0;
   gravity[QUAT_Y] = 0;
   gravity[QUAT_Z] = SENSOR_RANGE;
+}
+
+void loop()
+{  
+  MPUQuaternion rotatedGravity;                            // this is our body frame gravity vector
+  MPUQuaternion fusedConjugate;                            // this is the conjugate of the fused quaternion
+  MPUQuaternion qTemp;                                     // used in the rotation
+  MPUVector3 result;                                       // the accelerations
   
   if (MPU.read()) {                                        // get the latest data
     MPUQuaternionConjugate(MPU.m_fusedQuaternion, fusedConjugate);  // need this for the rotation
@@ -85,7 +86,7 @@ void loop()
     MPUQuaternionMultiply(fusedConjugate, qTemp, rotatedGravity);
     
     //  now subtract rotated gravity from the body accels to get real accelerations
-    //  note that signs are reversed to get +ve acceleration results in the convetional axes.
+    //  note that signs are reversed to get +ve acceleration results in the conventional axes.
     
     result[VEC3_X] = -(MPU.m_calAccel[VEC3_X] - rotatedGravity[QUAT_X]);
     result[VEC3_Y] = -(MPU.m_calAccel[VEC3_Y] - rotatedGravity[QUAT_Y]);
