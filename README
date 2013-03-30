@@ -1,0 +1,19 @@
+MPU9150Lib is an implementation of 9-axis data fusion on an Arduino using the InvenSense MPU-9150 IMU. See MPU9150Lib.pdf for details.
+
+March 30, 2013
+--------------
+Added magMix parameter to MPU6150Lib::init(). This controls how much influence the magnetometer has on the yaw information:
+  
+  0 = Just use MPU-9150 gyros and ignore the magnetometer
+  1 = Just use magnetometer and ignore gyro yaw information
+  2-n = Fuse gyro and yaw information. The higher the value, the less influence the magnetometer has.
+
+The value that's best will depend on the application and the environment. See MPU9150Lib.h for more.
+
+March 26, 2012
+--------------
+This is the initial version of the MPU9150Lib software.
+
+For more information, see www.pansenti.com,  pansenti.wordpress.com and twitter.com/Pansenti.
+
+Pansenti can be contacted by emailing to info@pansenti.com.
