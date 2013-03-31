@@ -332,7 +332,7 @@ void MPU9150Lib::dataFusion()
     deltaMagYaw = (2.0f * (float)M_PI + deltaMagYaw);
 
   if (m_magMix > 0) {
-    newYaw += deltaMagYaw/4;                             // apply some of the correction
+    newYaw += deltaMagYaw / m_magMix;                             // apply some of the correction
 
     if (newYaw > (2.0f * (float)M_PI))				            // need 0 <= newYaw <= 2*PI
       newYaw -= 2.0f * (float)M_PI;
